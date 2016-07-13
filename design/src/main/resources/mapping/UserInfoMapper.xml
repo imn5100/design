@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shaw.mapper.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.shaw.bo.UserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="clazz" property="clazz" jdbcType="VARCHAR" />
+    <result column="subjects" property="subjects" jdbcType="VARCHAR" />
+    <result column="sno" property="sno" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clazz, subjects, sno, type, detail
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from userinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.shaw.bo.UserInfo"  useGeneratedKeys="true" keyProperty="id">
+    insert into userinfo (id, clazz, subjects, 
+      sno, type, detail)
+    values (#{id,jdbcType=INTEGER}, #{clazz,jdbcType=VARCHAR}, #{subjects,jdbcType=VARCHAR}, 
+      #{sno,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{detail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shaw.bo.UserInfo" >
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clazz != null" >
+        clazz,
+      </if>
+      <if test="subjects != null" >
+        subjects,
+      </if>
+      <if test="sno != null" >
+        sno,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="clazz != null" >
+        #{clazz,jdbcType=VARCHAR},
+      </if>
+      <if test="subjects != null" >
+        #{subjects,jdbcType=VARCHAR},
+      </if>
+      <if test="sno != null" >
+        #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shaw.bo.UserInfo" >
+    update userinfo
+    <set >
+      <if test="clazz != null" >
+        clazz = #{clazz,jdbcType=VARCHAR},
+      </if>
+      <if test="subjects != null" >
+        subjects = #{subjects,jdbcType=VARCHAR},
+      </if>
+      <if test="sno != null" >
+        sno = #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shaw.bo.UserInfo" >
+    update userinfo
+    set clazz = #{clazz,jdbcType=VARCHAR},
+      subjects = #{subjects,jdbcType=VARCHAR},
+      sno = #{sno,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      detail = #{detail,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByUserId"  resultMap="BaseResultMap">
+     select 
+    <include refid="Base_Column_List" />
+    from userinfo where  id = (
+    	select infoid from user u where u.id=#{id}  
+    )
+    limit 1
+  </select>
+</mapper>

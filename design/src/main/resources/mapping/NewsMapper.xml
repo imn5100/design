@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shaw.mapper.NewsMapper">
+	<resultMap id="BaseResultMap" type="com.shaw.bo.News">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="img" property="img" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="uname" property="uname" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="createTime" property="createtime" jdbcType="BIGINT" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.shaw.bo.News"
+		extends="BaseResultMap">
+		<result column="detail" property="detail" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, img, type, uid, uname, url, createTime
+	</sql>
+	<sql id="Blob_Column_List">
+		detail
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from news
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from news
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.shaw.bo.News">
+		insert into news (id, title,
+		img,
+		type, uid, uname, url,
+		createTime, detail)
+		values
+		(#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{img,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{uid,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR},
+		#{createtime,jdbcType=BIGINT},
+		#{detail,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.shaw.bo.News">
+		insert into news
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="img != null">
+				img,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="uid != null">
+				uid,
+			</if>
+			<if test="uname != null">
+				uname,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="createtime != null">
+				createTime,
+			</if>
+			<if test="detail != null">
+				detail,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null">
+				#{img,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="uid != null">
+				#{uid,jdbcType=INTEGER},
+			</if>
+			<if test="uname != null">
+				#{uname,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="detail != null">
+				#{detail,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.shaw.bo.News">
+		update news
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null">
+				img = #{img,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="uid != null">
+				uid = #{uid,jdbcType=INTEGER},
+			</if>
+			<if test="uname != null">
+				uname = #{uname,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				createTime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="detail != null">
+				detail = #{detail,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.shaw.bo.News">
+		update
+		news
+		set title = #{title,jdbcType=VARCHAR},
+		img =
+		#{img,jdbcType=VARCHAR},
+		type = #{type,jdbcType=INTEGER},
+		uid =
+		#{uid,jdbcType=INTEGER},
+		uname = #{uname,jdbcType=VARCHAR},
+		url =
+		#{url,jdbcType=VARCHAR},
+		createTime = #{createtime,jdbcType=BIGINT},
+		detail = #{detail,jdbcType=LONGVARCHAR}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.shaw.bo.News">
+		update news
+		set
+		title = #{title,jdbcType=VARCHAR},
+		img = #{img,jdbcType=VARCHAR},
+		type =
+		#{type,jdbcType=INTEGER},
+		uid = #{uid,jdbcType=INTEGER},
+		uname =
+		#{uname,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		createTime =
+		#{createtime,jdbcType=BIGINT}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="selectByQuery" resultMap="BaseResultMap"
+		parameterType="Map">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from news
+		<where>
+			<if test="title!=null">
+				title = #{title}
+			</if>
+			<if test="type!=null">
+				and type=#{type}
+			</if>
+			<if test="uid!=null">
+				and uid=#{uid}
+			</if>
+			<if test="haveImg!=null">
+				and !isnull(img)
+			</if>
+			<if test="haveUrl!=null">
+				and !isnull(url)
+			</if>
+			<if test="id!=null">
+				and id = #{id,jdbcType=INTEGER}
+			</if>
+		</where>
+		order by createTime desc
+		<if test="page != null ">
+			limit #{page.beginIndex},#{page.everyPage}
+		</if>
+	</select>
+	<select id="selectByTitle" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from news
+		where title = #{title} limit 1
+	</select>
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into news (title,
+		img,
+		type, uid, uname, url,
+		createTime,
+		detail)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.title,jdbcType=VARCHAR},
+			#{item.img,jdbcType=VARCHAR},
+			#{item.type,jdbcType=INTEGER},
+			#{item.uid,jdbcType=INTEGER}, 
+			#{item.uname,jdbcType=VARCHAR},
+			#{item.url,jdbcType=VARCHAR},
+			#{item.createtime,jdbcType=BIGINT},
+			#{item.detail,jdbcType=LONGVARCHAR}
+			)
+		</foreach>
+	</insert>
+</mapper>

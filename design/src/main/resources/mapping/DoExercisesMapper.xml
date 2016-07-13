@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shaw.mapper.DoExercisesMapper">
+	<resultMap id="BaseResultMap" type="com.shaw.bo.DoExercises">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="exercises_id" property="exercisesId" jdbcType="INTEGER" />
+		<result column="student_id" property="studentId" jdbcType="INTEGER" />
+		<result column="answer" property="answer" jdbcType="VARCHAR" />
+		<result column="student_Name" property="studentName" jdbcType="VARCHAR" />
+		<result column="teacher_Id" property="teacherId" jdbcType="INTEGER" />
+		<result column="teacher_Name" property="teacherName" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="createTime" property="createtime" jdbcType="BIGINT" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, exercises_id, student_id, answer,
+		student_Name,
+		teacher_Id, teacher_Name, status,
+		createTime
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from doexercises
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		doexercises
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.shaw.bo.DoExercises">
+		insert into doexercises (id,
+		exercises_id, student_id, answer,
+		student_Name, teacher_Id,
+		teacher_Name, status, createTime
+		)
+		values
+		(#{id,jdbcType=INTEGER}, #{exercisesId,jdbcType=INTEGER},
+		#{studentId,jdbcType=INTEGER},
+		#{answer,jdbcType=VARCHAR},
+		#{studentName,jdbcType=VARCHAR},
+		#{teacherId,jdbcType=INTEGER},
+		#{teacherName,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER}, #{createtime,jdbcType=BIGINT}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.shaw.bo.DoExercises">
+		insert into doexercises
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="exercisesId != null">
+				exercises_id,
+			</if>
+			<if test="studentId != null">
+				student_id,
+			</if>
+			<if test="answer != null">
+				answer,
+			</if>
+			<if test="studentName != null">
+				student_Name,
+			</if>
+			<if test="teacherId != null">
+				teacher_Id,
+			</if>
+			<if test="teacherName != null">
+				teacher_Name,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="createtime != null">
+				createTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="exercisesId != null">
+				#{exercisesId,jdbcType=INTEGER},
+			</if>
+			<if test="studentId != null">
+				#{studentId,jdbcType=INTEGER},
+			</if>
+			<if test="answer != null">
+				#{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="studentName != null">
+				#{studentName,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherId != null">
+				#{teacherId,jdbcType=INTEGER},
+			</if>
+			<if test="teacherName != null">
+				#{teacherName,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.shaw.bo.DoExercises">
+		update doexercises
+		<set>
+			<if test="exercisesId != null">
+				exercises_id = #{exercisesId,jdbcType=INTEGER},
+			</if>
+			<if test="studentId != null">
+				student_id = #{studentId,jdbcType=INTEGER},
+			</if>
+			<if test="answer != null">
+				answer = #{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="studentName != null">
+				student_Name = #{studentName,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherId != null">
+				teacher_Id = #{teacherId,jdbcType=INTEGER},
+			</if>
+			<if test="teacherName != null">
+				teacher_Name = #{teacherName,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				createTime = #{createtime,jdbcType=BIGINT},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.shaw.bo.DoExercises">
+		update doexercises
+		set exercises_id = #{exercisesId,jdbcType=INTEGER},
+		student_id =
+		#{studentId,jdbcType=INTEGER},
+		answer = #{answer,jdbcType=VARCHAR},
+		student_Name =
+		#{studentName,jdbcType=VARCHAR},
+		teacher_Id = #{teacherId,jdbcType=INTEGER},
+		teacher_Name =
+		#{teacherName,jdbcType=VARCHAR},
+		status = #{status,jdbcType=INTEGER},
+		createTime = #{createtime,jdbcType=BIGINT}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<insert id="batchInsertExVo" parameterType="java.util.List">
+		insert into doexercises (exercises_id, student_id, answer,
+		student_Name,
+		teacher_Id,
+		teacher_Name, status,
+		createTime
+		) values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(
+			#{item.id},
+			#{item.aUid},
+			#{item.userAnswer},
+			#{item.aUsername},
+			#{item.toTeacherId},
+			#{item.toTeacherName},
+			1,
+			#{item.createtime}
+			)
+		</foreach>
+	</insert>
+	<select id="selectLatelyExe" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from doexercises where createTime =( select MAX(createTime) from
+		doexercises where student_id=#{id}) and student_id=#{id}
+	</select>
+
+	<select id="selectByTime" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from doexercises where createTime = #{time} and student_id=#{id}
+	</select>
+
+	<select id="selectByQuery" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from doexercises
+		<where>
+			<if test="createTime!=null">
+				createTime = #{createTime}
+			</if>
+			<if test="exercisesId!=null">
+				exercises_id = #{exercisesId}
+			</if>
+			<if test="studentId!=null">
+				and student_id=#{studentId}
+			</if>
+			<if test="teacherId!=null">
+				and teacher_id=#{teacherId}
+			</if>
+		</where>
+
+	</select>
+
+	<select id="selectTimes" resultType="Long">
+		select createTime from
+		doexercises where student_id=#{id} group by createTime order by createTime desc
+	</select>
+
+	<select id="selectTimesByTidAndSid" resultType="Long">
+		select createTime
+		from
+		doexercises where student_id=#{sid} and teacher_id =#{tid} group
+		by createTime
+	</select>
+
+	<select id="selectMyStudentCount" resultMap="StCountMap">
+		select student_id,student_name,count(1) as count from doexercises where
+		teacher_id=#{teacherId} group by student_id order by createTime;
+	</select>
+	<resultMap type="com.shaw.vo.StudentCount" id="StCountMap">
+		<result column="student_id" property="studentId" jdbcType="INTEGER" />
+		<result column="student_name" property="studentName" jdbcType="VARCHAR" />
+		<result column="count" property="count" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<delete id="deleteByExeId">
+	     delete from doexercises where exercises_id = #{exercisesId} 
+	</delete>
+</mapper>

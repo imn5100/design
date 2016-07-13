@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Page</title>
+<link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="/css/style.css" rel='stylesheet' type='text/css' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/move-top.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+				});
+			});
+		</script>
+</head>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<h1><a href="about.html">BHNT</a></h1>
+		</div>	
+			<div class="header-top">
+				<div class="head-nav">
+					<nav class="navbar navbar-default">
+						<div class="container-fluid">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+										<span class="sr-only">Toggle navigation</span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+								</button>
+							</div>
+							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+								<ul class="nav navbar-nav">
+									<li ><a href="about.html">主页-HOME</a></li>
+									<li><a href="news.html">新闻-NEWS</a></li>
+									<li id="myPage" class="active"><a href="myPage">个人主页-PAGE</a></li>
+									<li><a href="login.html" id="login">登录-LOGIN</a></li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+			</div>
+		<div class="clearfix"> </div>
+	</div>
+<!-- header -->
+<!-- pages -->
+<div class="container">
+			<div class="pages">
+				<div class="Buttons">
+					<div class="bs-example" >
+					 	<h3 class="ghj">个人信息</h3>
+							<table class="table">
+							  <tbody>
+								<tr>
+								  <td class="type-info">账号：</td>
+								  <td class="type-info"><input type="text" class="form-control" name="title" placeholder="" value="$!{userVo.username}" readonly="readonly"/></td>
+								</tr>
+								<tr>
+								  <td class="type-info">姓名：</td>
+								  <td class="type-info"><input type="text" class="form-control" name="title" placeholder="" value="$!{userVo.nick}" /></td>
+								</tr>
+								<tr>
+							 	   <td class="type-info">教学科目：</td>
+								  <td class="type-info">  <input type="text" class="form-control" name="title" placeholder="" value="$!{userVo.subjects}" ></td>
+								</tr>
+								<tr>
+								   <td class="type-info">个人简介：</td>
+								<td><input type="text" class="form-control" name="title" placeholder="" value="$!{userVo.detail}" /></td>
+								</tr>
+							  </tbody>
+							</table>
+							   <div class="control-wrapper">
+							<h3 align="center"><a href="#"><span class="label label-primary">修改</span></a></h3>  <a href="changePsw.html" class="text-right pull-right">修改密码?</a>
+						</div>
+						</div>
+				</div>	
+			
+			<div class="clearfix"> </div>
+			<div class="container">
+				<div class="alert alert-success" role="alert" align="center">
+				<strong>我的通知</strong>
+				</div>
+			#foreach($noti in $notis)			
+			<div class="col-md-3 minist-left">	
+				<p class="type-info">标题</p>  <input type="text" class="form-control" name="title" placeholder="" value="$!{noti.title}"/>
+				<p class="type-info">内容</p> <textarea rows="5" cols="10"  name="content" class="form-control">$!{noti.detail}</textarea>
+				<p class="tyep-info">发布时间 :$!dateTool.format('yyyy-MM-dd HH:mm:ss',$!{noti.createtime})</p>
+				<div  align="center">
+				<a href="#"><span class="label label-success">修改</span></a>
+				<a href="#"><span class="label label-warning">删除</span></a>
+				</div>
+			</div>
+			#end
+				 <div class="clearfix"> </div>
+			</div>
+			
+			
+			<form class="form-horizontal templatemo-container  margin-bottom-30" id="loginForm" method="post" action="/releaseNotification">
+				<div class="headdings">
+                    <div class="alert alert-info" role="alert" align="center">
+						<strong>发布通知</strong> 
+                      </div>
+						<div class="control-wrapper">
+                            <input type="text" class="form-control" name="title" placeholder="通知标题" >
+                        </div>
+                        <br>
+						<div class="control-wrapper">
+							<textarea rows="5" cols="10" placeholder="通知内容" name="content" class="form-control"></textarea>
+                        </div>
+                        <br>
+                        <div class="control-wrapper" align="center">
+							 <input type="submit" value="提交" class="btn btn-info">
+                        </div>
+                        <br>
+				</div>
+			</form>
+				
+		<div class="clearfix"> </div>
+
+			<br>
+			
+			<div class="clearfix"> </div>
+				</div>
+				<div class="Buttons">
+					<h3 class="ghj">Buttons</h3>
+					  <h1>
+						<a href="#"><span class="label label-default">Default</span></a>
+						<a href="#"><span class="label label-primary">Primary</span></a>
+						<a href="#"><span class="label label-success">Success</span></a>
+						<a href="#"><span class="label label-info">Info</span></a>
+						<a href="#"><span class="label label-warning">Warning</span></a>
+						<a href="#"><span class="label label-danger">Danger</span></a>
+					  </h1>
+					  <h2>
+						<a href="#"><span class="label label-default">Default</span></a>
+						<a href="#"><span class="label label-primary">Primary</span></a>
+						<a href="#"><span class="label label-success">Success</span></a>
+						<a href="#"><span class="label label-info">Info</span></a>
+						<a href="#"><span class="label label-warning">Warning</span></a>
+						<a href="#"><span class="label label-danger">Danger</span></a>
+					  </h2>
+					  <h3>
+						<a href="#"><span class="label label-default">Default</span></a>
+						<a href="#"><span class="label label-primary">Primary</span></a>
+						<a href="#"><span class="label label-success">Success</span></a>
+						<a href="#"><span class="label label-info">Info</span></a>
+						<a href="#"><span class="label label-warning">Warning</span></a>
+						<a href="#"><span class="label label-danger">Danger</span></a>
+					  </h3>
+					  <h4>
+						<a href="#"><span class="label label-default">Default</span></a>
+						<a href="#"><span class="label label-primary">Primary</span></a>
+						<a href="#"><span class="label label-success">Success</span></a>
+						<a href="#"><span class="label label-info">Info</span></a>
+						<a href="#"><span class="label label-warning">Warning</span></a>
+						<a href="#"><span class="label label-danger">Danger</span></a>
+					  </h4>
+					  <h5>
+						<a href="#"><span class="label label-default">Default</span></a>
+						<a href="#"><span class="label label-primary">Primary</span></a>
+						<a href="#"><span class="label label-success">Success</span></a>
+						<a href="#"><span class="label label-info">Info</span></a>
+						<a href="#"><span class="label label-warning">Warning</span></a>
+						<a href="#"><span class="label label-danger">Danger</span></a>
+					  </h5>
+					  <h6>
+						<a href="#"><span class="label label-default">Default</span></a>
+						<a href="#"><span class="label label-primary">Primary</span></a>
+						<a href="#"><span class="label label-success">Success</span></a>
+						<a href="#"><span class="label label-info">Info</span></a>
+						<a href="#"><span class="label label-warning">Warning</span></a>
+						<a href="#"><span class="label label-danger">Danger</span></a>
+					  </h6>
+				</div>
+				<div class="progress-bars">
+				 <h3 class="ghj">Progress Bars</h3>
+					 <div class="tab-content">
+						  <div class="tab-pane active" id="domprogress">
+							  <div class="progress">    
+								<div class="progress-bar progress-bar-primary" style="width: 20%"></div>
+							  </div>
+							  <p>Info with <code>progress-bar-info</code> class.</p>
+							  <div class="progress">    
+								<div class="progress-bar progress-bar-info" style="width: 60%"></div>
+							  </div>
+							  <p>Success with <code>progress-bar-success</code> class.</p>
+							  <div class="progress">
+								<div class="progress-bar progress-bar-success" style="width: 30%"></div>
+							  </div>
+							  <p>Warning with <code>progress-bar-warning</code> class.</p>
+							  <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="width: 70%"></div>
+							  </div>
+							  <p>Danger with <code>progress-bar-danger</code> class.</p>
+							  <div class="progress">
+								<div class="progress-bar progress-bar-danger" style="width: 50%"></div>
+							  </div>
+							  <p>Inverse with <code>progress-bar-inverse</code> class.</p>
+							  <div class="progress">
+								<div class="progress-bar progress-bar-inverse" style="width: 40%"></div>
+							  </div>
+							   <p>Inverse with <code>progress-bar-inverse</code> class.</p>
+							  <div class="progress">
+								<div class="progress-bar progress-bar-success" style="width: 35%"><span class="sr-only">35% Complete (success)</span></div>
+								<div class="progress-bar progress-bar-warning" style="width: 20%"><span class="sr-only">20% Complete (warning)</span></div>
+								<div class="progress-bar progress-bar-danger" style="width: 10%"><span class="sr-only">10% Complete (danger)</span></div>
+							  </div>
+						</div>
+				   </div>
+				</div>
+				<div class="alerts">
+				  <h3 class="ghj">Alerts</h3>
+				   <div class="alert alert-success" role="alert">
+					<strong>Well done!</strong> You successfully read this important alert message.
+				   </div>
+				   <div class="alert alert-info" role="alert">
+					<strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+				   </div>
+				   <div class="alert alert-warning" role="alert">
+					<strong>Warning!</strong> Best check yo self, you're not looking too good.
+				   </div>
+				   <div class="alert alert-danger" role="alert">
+					<strong>Oh snap!</strong> Change a few things up and try submitting again.
+				   </div>
+				</div>
+				<div class="pagenatin">
+					<h3 class="ghj">Pagination</h3>
+						<div class="col-md-6">
+						  <nav>
+						  <ul class="pagination pagination-lg">
+							<li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+						  </ul>
+						  </nav>
+						  <nav>
+						  <ul class="pagination">
+							<li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+						  </ul>
+						  </nav>
+						  <nav>
+							<ul class="pagination pagination-sm">
+								<li><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+							</ul>
+						  </nav>
+						</div>
+						<div class="col-md-6">
+							<nav>
+								<ul class="pagination pagination-lg">
+										<li class="disabled"><a href="#"><i class="fa fa-angle-left">«</i></a></li>
+										<li class="active"><a href="#">1</a></li>
+										<li><a href="#">2</a></li>
+										<li><a href="#">3</a></li>
+										<li><a href="#">4</a></li>
+										<li><a href="#">5</a></li>
+										<li><a href="#"><i class="fa fa-angle-right">»</i></a></li>
+								</ul>
+							</nav>
+							<nav>
+							  <ul class="pagination">
+								<li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+								<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+							 </ul>
+							</nav>
+							<nav>
+								 <ul class="pagination pagination-sm">
+									<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i>«</a></li>
+									<li class="active"><a href="#">1</a></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i>»</a></li>
+								</ul>
+							</nav>
+						</div>
+						<div class="clearfix"> </div>
+				</div>
+				<div class="bread-crumbs">
+					 <h3 class="ghj">Breadcrumbs</h3>
+					   <ol class="breadcrumb">
+					  <li class="active">Home</li>
+					</ol>
+					<ol class="breadcrumb">
+					  <li><a href="#">Home</a></li>
+					  <li class="active">Library</li>
+					</ol>
+					<ol class="breadcrumb">
+					  <li><a href="#">Home</a></li>
+					  <li><a href="#">Library</a></li>
+					  <li class="active">Data</li>
+					</ol>
+				</div>
+				<div class="appearance">
+				 <h3 class="ghj">Badges</h3>
+					<div class="col-md-6">
+						<p>Add modifier classes to change the appearance of a badge.</p>
+						  <table class="table table-bordered">
+							<thead>
+								<tr>
+									<th width="50%">Classes</th>
+									<th width="50%">Badges</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>No modifiers</td>
+									<td><span class="badge">42</span></td>
+								</tr>
+								<tr>
+									<td><code>.badge-primary</code></td>
+									<td><span class="badge badge-primary">1</span></td>
+								</tr>
+								<tr>
+									<td><code>.badge-success</code></td>
+									<td><span class="badge badge-success">22</span></td>
+								</tr>
+								<tr>
+									<td><code>.badge-info</code></td>
+									<td><span class="badge badge-info">30</span></td>
+								</tr>
+								<tr>
+									<td><code>.badge-warning</code></td>
+									<td><span class="badge badge-warning">412</span></td>
+								</tr>
+								<tr>
+									<td><code>.badge-danger</code></td>
+									<td><span class="badge badge-danger">999</span></td>
+								</tr>
+							</tbody>
+						  </table>                    
+					</div>
+					<div class="col-md-6">
+					  <p>Easily highlight new or unread items with the <code>.badge</code> class</p>
+						<div class="list-group list-group-alternate"> 
+							<a href="#" class="list-group-item"><span class="badge">201</span> <i class="ti ti-email"></i> Inbox </a> 
+							<a href="#" class="list-group-item"><span class="badge badge-primary">5021</span> <i class="ti ti-eye"></i> Profile visits </a> 
+							<a href="#" class="list-group-item"><span class="badge">14</span> <i class="ti ti-headphone-alt"></i> Call </a> 
+							<a href="#" class="list-group-item"><span class="badge">20</span> <i class="ti ti-comments"></i> Messages </a> 
+							<a href="#" class="list-group-item"><span class="badge badge-warning">14</span> <i class="ti ti-bookmark"></i> Bookmarks </a> 
+							<a href="#" class="list-group-item"><span class="badge badge-danger">30</span> <i class="ti ti-bell"></i> Notifications </a> 
+						</div>
+					</div>
+				   <div class="clearfix"> </div>
+				</div>
+				<div class="distracted">
+				  <h3 class="ghj">Wells</h3>
+					   <div class="well">
+						There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration
+					   </div>
+					   <div class="well">
+						It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here
+					   </div>
+					   <div class="well">
+						Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic
+					   </div>
+				</div>
+			</div>
+<!-- //pages -->
+#include("foot.html")
+<a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 0;"></span> <span id="toTopHover" style="opacity: 0;"> </span></a>
+</body>
+</html>

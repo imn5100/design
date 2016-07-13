@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shaw.mapper.ExercisesMapper">
+	<resultMap id="BaseResultMap" type="com.shaw.bo.Exercises">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="question" property="question" jdbcType="VARCHAR" />
+		<result column="answer" property="answer" jdbcType="VARCHAR" />
+		<result column="options" property="options" jdbcType="VARCHAR" />
+		<result column="teacher_name" property="teacherName" jdbcType="VARCHAR" />
+		<result column="teacher_id" property="teacherId" jdbcType="INTEGER" />
+		<result column="subject_name" property="subjectName" jdbcType="VARCHAR" />
+		<result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+		<result column="createtime" property="createtime" jdbcType="BIGINT" />
+		<result column="score" property="score" jdbcType="REAL" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, type, question, answer, options, teacher_name,
+		teacher_id,
+		subject_name, subject_id,
+		createtime, score
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from exercises
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		exercises
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.shaw.bo.Exercises">
+		insert into exercises (id,
+		type, question,
+		answer, options, teacher_name,
+		teacher_id, subject_name,
+		subject_id,
+		createtime, score)
+		values (#{id,jdbcType=INTEGER},
+		#{type,jdbcType=INTEGER},
+		#{question,jdbcType=VARCHAR},
+		#{answer,jdbcType=VARCHAR}, #{options,jdbcType=VARCHAR},
+		#{teacherName,jdbcType=VARCHAR},
+		#{teacherId,jdbcType=INTEGER},
+		#{subjectName,jdbcType=VARCHAR},
+		#{subjectId,jdbcType=INTEGER},
+		#{createtime,jdbcType=BIGINT}, #{score,jdbcType=REAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.shaw.bo.Exercises">
+		insert into exercises
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="question != null">
+				question,
+			</if>
+			<if test="answer != null">
+				answer,
+			</if>
+			<if test="options != null">
+				options,
+			</if>
+			<if test="teacherName != null">
+				teacher_name,
+			</if>
+			<if test="teacherId != null">
+				teacher_id,
+			</if>
+			<if test="subjectName != null">
+				subject_name,
+			</if>
+			<if test="subjectId != null">
+				subject_id,
+			</if>
+			<if test="createtime != null">
+				createtime,
+			</if>
+			<if test="score != null">
+				score,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="question != null">
+				#{question,jdbcType=VARCHAR},
+			</if>
+			<if test="answer != null">
+				#{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="options != null">
+				#{options,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherName != null">
+				#{teacherName,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherId != null">
+				#{teacherId,jdbcType=INTEGER},
+			</if>
+			<if test="subjectName != null">
+				#{subjectName,jdbcType=VARCHAR},
+			</if>
+			<if test="subjectId != null">
+				#{subjectId,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="score != null">
+				#{score,jdbcType=REAL},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.shaw.bo.Exercises">
+		update exercises
+		<set>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="question != null">
+				question = #{question,jdbcType=VARCHAR},
+			</if>
+			<if test="answer != null">
+				answer = #{answer,jdbcType=VARCHAR},
+			</if>
+			<if test="options != null">
+				options = #{options,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherName != null">
+				teacher_name = #{teacherName,jdbcType=VARCHAR},
+			</if>
+			<if test="teacherId != null">
+				teacher_id = #{teacherId,jdbcType=INTEGER},
+			</if>
+			<if test="subjectName != null">
+				subject_name = #{subjectName,jdbcType=VARCHAR},
+			</if>
+			<if test="subjectId != null">
+				subject_id = #{subjectId,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				createtime = #{createtime,jdbcType=BIGINT},
+			</if>
+			<if test="score != null">
+				score = #{score,jdbcType=REAL},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.shaw.bo.Exercises">
+		update exercises
+		set type = #{type,jdbcType=INTEGER},
+		question =
+		#{question,jdbcType=VARCHAR},
+		answer = #{answer,jdbcType=VARCHAR},
+		options = #{options,jdbcType=VARCHAR},
+		teacher_name =
+		#{teacherName,jdbcType=VARCHAR},
+		teacher_id =
+		#{teacherId,jdbcType=INTEGER},
+		subject_name =
+		#{subjectName,jdbcType=VARCHAR},
+		subject_id =
+		#{subjectId,jdbcType=INTEGER},
+		createtime =
+		#{createtime,jdbcType=BIGINT},
+		score = #{score,jdbcType=REAL}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<select id="ExerciseStatistics" resultMap="ExerciseStatistics">
+		SELECT
+		subject_id,
+		subject_name,
+		type,
+		count(1) as count,
+		count(subject_id) as
+		count_subject,
+		count(type) as count_type
+		FROM
+		exercises
+		where 1=1
+		GROUP BY
+		subject_id,
+		type
+	</select>
+	<select id="randomGetExe" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM exercises
+		<if test="subjectId!=null">
+			where subject_id=#{subjectId}
+		</if>
+		ORDER BY RAND()
+		LIMIT #{num}
+	</select>
+
+	<select id="selectBySubjectIds" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM exercises
+		where subject_id=#{subjectId}
+	</select>
+
+	<resultMap id="ExerciseStatistics" type="com.shaw.vo.ExerciseStatisticsVo">
+		<result column="subject_id" property="subjectId" />
+		<result column="subject_name" property="subjectName" />
+		<result column="type" property="type" />
+		<result column="count" property="count" jdbcType="INTEGER" />
+		<result column="count_type" property="countType" jdbcType="INTEGER" />
+		<result column="count_subject" property="countSubject"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="selectByIds" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM exercises
+		where id in
+		<foreach collection="ids" item="item" open="(" close=")"
+			separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+	<update id="updateSubjectNameBySubject">
+		update exercises
+		set subject_name = #{subjectName}
+		where
+		subject_id =
+		#{subjectId}
+	</update>
+
+	<select id="selectByQuery" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM exercises
+		<where>
+			<if test="teacherId!=null">
+				teacher_id = #{teacherId}
+			</if>
+			<if test="teacherName!=null">
+				teacher_name = #{teacherName}
+			</if>
+			<if test="type!=null">
+				and type=#{type}
+			</if>
+			<if test="subjectId!=null">
+				and subject_id=#{subjectId}
+			</if>
+			<if test="subjectName!=null">
+				and subject_name=#{subjectName}
+			</if>
+			<if test="id!=null">
+				and id = #{id,jdbcType=INTEGER}
+			</if>
+		</where>
+		order by createtime desc
+		<if test="page != null ">
+			limit #{page.beginIndex},#{page.everyPage}
+		</if>
+	</select>
+	<select id="countByQuery" resultType="Integer" parameterType="java.util.Map">
+		SELECT
+		count(1)
+		FROM exercises
+		<where>
+			<if test="teacherId!=null">
+				teacher_id = #{teacherId}
+			</if>
+			<if test="teacherName!=null">
+				teacher_name = #{teacherName}
+			</if>
+			<if test="type!=null">
+				and type=#{type}
+			</if>
+			<if test="subjectId!=null">
+				and subject_id=#{subjectId}
+			</if>
+			<if test="subjectName!=null">
+				and subject_name=#{subjectName}
+			</if>
+			<if test="id!=null">
+				and id = #{id,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+
+</mapper>

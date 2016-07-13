@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>About</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="/css/style.css" rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/move-top.js"></script>
+    <script type="text/javascript" src="/js/easing.js"></script>
+    <script type="text/javascript" src="/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/js/login.js"></script>
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1200);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- header -->
+    <div class="header">
+        <div class="logo">
+            <h1><a href="about.html">BHNT</a></h1>
+        </div>
+        <!-- start header menu -->
+        <div class="header-top">
+            <div class="head-nav">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">	<span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="about.html">主页-HOME</a>
+                                </li>
+                                <li><a href="news.html">新闻-NEWS</a>
+                                </li>
+                                <li id="myPage"><a href="myPage">个人主页-PAGE</a>
+                                </li>
+                                <li><a href="login.html" id="login">登录-LOGIN</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- header -->
+    <!-- about -->
+    <div class="about">
+        <div class="container">
+            <div class="abou-top">
+                <div class="col-md-4 abou-left">
+                    <img src="/images/1.png" class="img-responsive" alt="" />
+                </div>
+                <div class="col-md-8 abou-right">
+                    <h5>本站概述</h5>
+                    <p>○ 本站是一个网络教育平台，是提供学生和老师课外的交流学习场所。在这里您可以：</p>
+                    <p>A.通过认证学号注册成为学生：1.浏览新闻。 2.查看最新通知公告。 3.进行自主练习。 4.管理您的账号及个人信息数据 。</p>
+                    <p>B.通过管理员认证注册为老师：1.管理发布您的通知公告。 2.添加习题及相关数据. 3.查看学生习题练习情况。</p>
+                    <p>C.管理员有权管理您的部分数据，但不会泄露或私用您的任何个人数据。</p>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="abt-btm">
+                <h3>最新公告</h3>
+                #foreach($noti in $notis)
+                <div class="col-md-4">
+                    <h4>${noti.title}</h4>
+                    <p>○ ${noti.detail}</p>
+                    <div align="right">
+                        <h6>发布人</h6>
+                        <a href="">${noti.uname}</a>
+                    </div>
+                </div>#end
+                <div class="clearfix"></div>
+            </div>
+            <div class="abt-btm">
+                <h3>热点时事</h3>
+                #foreach($new in $news)
+                <div class="col-md-4">
+                    <h4>${new.title}</h4>
+                    <p>○ ${new.detail}</p>
+                    <div align="right">	<a href="${new.url}" target="_blank">查看详情</a>
+                    </div>
+                </div>#end
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>#include("foot.html")
+<a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 0;"></span> <span id="toTopHover" style="opacity: 0;"> </span></a>
+</body>
+
+</html>

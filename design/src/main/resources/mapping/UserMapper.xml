@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shaw.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="com.shaw.bo.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="CHAR" />
+		<result column="nick" property="nick" jdbcType="VARCHAR" />
+		<result column="role" property="role" jdbcType="INTEGER" />
+		<result column="infoid" property="infoid" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, username, password, nick, role, infoid
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.shaw.bo.User"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into user (id, username, password,
+		nick, role, infoid)
+		values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR},
+		#{password,jdbcType=CHAR},
+		#{nick,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{infoid,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.shaw.bo.User">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="nick != null">
+				nick,
+			</if>
+			<if test="role != null">
+				role,
+			</if>
+			<if test="infoid != null">
+				infoid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=CHAR},
+			</if>
+			<if test="nick != null">
+				#{nick,jdbcType=VARCHAR},
+			</if>
+			<if test="role != null">
+				#{role,jdbcType=INTEGER},
+			</if>
+			<if test="infoid != null">
+				#{infoid,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.shaw.bo.User">
+		update user
+		<set>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=CHAR},
+			</if>
+			<if test="nick != null">
+				nick = #{nick,jdbcType=VARCHAR},
+			</if>
+			<if test="role != null">
+				role = #{role,jdbcType=INTEGER},
+			</if>
+			<if test="infoid != null">
+				infoid = #{infoid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.shaw.bo.User">
+		update user
+		set username = #{username,jdbcType=VARCHAR},
+		password = #{password,jdbcType=CHAR},
+		nick = #{nick,jdbcType=VARCHAR},
+		role = #{role,jdbcType=INTEGER},
+		infoid = #{infoid,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="login" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user where username=#{username} and password =#{password} and
+		role=#{role}
+	</select>
+	<select id="selectByUsername" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user where username=#{username}
+	</select>
+
+	<resultMap id="UserVoMap" type="com.shaw.vo.UserVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="nick" property="nick" jdbcType="VARCHAR" />
+		<result column="role" property="role" jdbcType="INTEGER" />
+		<result column="infoid" property="infoId" jdbcType="INTEGER" />
+		<result column="clazz" property="clazz" jdbcType="VARCHAR" />
+		<result column="subjects" property="subjects" jdbcType="VARCHAR" />
+		<result column="sno" property="sno" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="detail" property="detail" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectByQuery" parameterType="java.util.Map"
+		resultMap="UserVoMap">
+		select u.id as id,
+		username,nick,role,infoid,clazz,subjects,sno,type,detail from
+		user u left join userinfo ui on u.infoid=ui.id
+		<where>
+			<if test="id!=null">
+				u.id = #{id}
+			</if>
+			<if test="username!=null">
+				and username=#{username}
+			</if>
+			<if test="sno!=null">
+				and sno=#{sno}
+			</if>
+			<if test="type!=null">
+				and type=#{type}
+			</if>
+			<if test="nick!=null">
+				and nick=#{nick}
+			</if>
+			<if test="subjects!=null">
+				and subjects=#{subjects}
+			</if>
+			<if test="clazz!=null">
+				and clazz=#{clazz}
+			</if>
+			<if test="isTRole!=null">
+				and (role=2 or role=3)
+			</if>
+			<if test="role!=null">
+				and role=#{role}
+			</if>
+		</where>
+		<if test="page != null ">
+			limit #{page.beginIndex},#{page.everyPage}
+		</if>
+	</select>
+	<select id="countByQuery" parameterType="java.util.Map"
+		resultType="Integer">
+		select count(1) from
+		user u left join userinfo ui on u.infoid=ui.id
+		<where>
+			<if test="id!=null">
+				u.id = #{id}
+			</if>
+			<if test="username!=null">
+				and username=#{username}
+			</if>
+			<if test="sno!=null">
+				and sno=#{sno}
+			</if>
+			<if test="type!=null">
+				and type=#{type}
+			</if>
+			<if test="role!=null">
+				and role=#{role}
+			</if>
+			<if test="nick!=null">
+				and nick=#{nick}
+			</if>
+			<if test="subjects!=null">
+				and subjects=#{subjects}
+			</if>
+			<if test="clazz!=null">
+				and clazz=#{clazz}
+			</if>
+		</where>
+	</select>
+</mapper>

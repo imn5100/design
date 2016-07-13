@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="/css/style.css" rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/move-top.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/js/jquery.json.js"></script>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+				});
+				
+			});
+			
+			function  returnMainPage(){
+				window.location="/myPage";					
+			}
+			
+		</script>
+</head>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<h1><a href="about.html">BHNT</a></h1>
+		</div>	
+			<div class="header-top">
+				<div class="head-nav">
+					<nav class="navbar navbar-default">
+						<div class="container-fluid">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+										<span class="sr-only">Toggle navigation</span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+								</button>
+							</div>
+							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+								<ul class="nav navbar-nav">
+									<li ><a href="about.html">主页-HOME</a></li>
+									<li><a href="news.html">新闻-NEWS</a></li>
+									<li id="myPage" class="active"><a href="myPage">个人主页-PAGE</a></li>
+									<li><a href="login.html" id="login">登录-LOGIN</a></li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+			</div>
+		<div class="clearfix"> </div>
+	</div>
+<div class="container">
+			#if(${student}) 
+				<h3 class="ghj">学生信息</h3>
+				 <div class="alert alert-success" role="alert">
+				  <table class="table">
+				  <tr>
+                   	 <td> 学生编号:</td><td>$!{student.id}</td>   </tr>
+                    <tr> <td>学生账户:</td><td>$!{student.username}</td></tr>
+                     <tr><td>昵称:</td><td>$!{student.nick}</td></tr>
+                     <tr><td>班级:</td><td>$!{student.clazz}</td></tr>
+                     <tr><td>学号:</td><td>$!{student.sno}</td></tr>
+                   	 <tr><td>个人简介:</td><td>$!{student.detail}</td></tr>
+                   	</table>
+                   	 </div>
+			#end
+			
+			<br>
+			<h3 class="ghj">提交给我的试卷</h3>
+				  #if(${times}) 
+				  	#foreach($time in $!times)
+					<a href="/getStudentExes?time=${time}&sid=$!{student.id}"><span class="label label-warning">● No$!dateTool.format('yy-MM-dd HH:mm',$!{time})</span></a>
+				 	 #end
+				  #else
+				   	<strong> 暂无数据</strong>
+				  #end
+				 <br>
+				 <br>
+</div>
+#include("foot.html")
+<a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 0;"></span> <span id="toTopHover" style="opacity: 0;"> </span></a>
+</body>
+</html>

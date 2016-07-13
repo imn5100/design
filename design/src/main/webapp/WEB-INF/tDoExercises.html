@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="/css/style.css" rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/move-top.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/js/jquery.json.js"></script>
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+				});
+				
+			});
+			
+			function  submitDoExecirse(){
+				var list=new Array()
+				var  i=0;
+				$("input[type=checkbox]").each(function(index,element){
+					if(element.checked == true){
+						list[i]=element.id;
+						i++;
+					}
+				});
+				var list2=new Array();
+				var flag = false;
+				$("textarea[name=exAn]").each(function(index,element){
+					if(element.value==""){
+						alert("第"+(index+1)+"道简答题，答案不能为空");
+						flag = true;
+						return false;
+					}else{
+						var simA=new Object();
+						var id = element.id;
+						var an = element.value;
+						simA.id=id;
+						simA.an=an;
+						list2[index]=simA;
+						
+					}
+				});
+				if(flag){
+					return;
+				}
+				var teacherUsername =  $("#teacherUsername").val();
+				if(teacherUsername == ""){
+					alert("提交教师不能为空");
+					return;
+				}
+				var data = new Object();
+				data.OpA=list;
+				data.SiA=list2;
+				data.teacherName=teacherUsername;
+				data.ids=$("#ids").val();
+				var mydata = $.toJSON(data);
+	            $.ajax({
+	                type: 'POST',
+	                contentType: 'application/json',
+	                processData: false,
+	                url: '/submitExercises',
+	                dataType: 'json',
+	                data: mydata,
+	                async: true,
+	                success: function(returnData) {
+	                    if (returnData.code == "200") {
+	                    	alert(returnData.msg);
+							window.location="/getLatelyExe"	                        
+	                    }else{
+	                    	 alert(returnData.msg);
+	                    }
+	                },
+	                error: function() {
+	                    alert('身份验证失效，请重新登录！');
+	                    //location.reload();
+	                }
+	            });				
+				
+					
+			}
+			
+		</script>
+</head>
+</head>
+<body>
+	<div class="header">
+		<div class="logo">
+			<h1><a href="about.html">BHNT</a></h1>
+		</div>	
+			<div class="header-top">
+				<div class="head-nav">
+					<nav class="navbar navbar-default">
+						<div class="container-fluid">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+										<span class="sr-only">Toggle navigation</span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+								</button>
+							</div>
+							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+								<ul class="nav navbar-nav">
+									<li ><a href="about.html">主页-HOME</a></li>
+									<li><a href="news.html">新闻-NEWS</a></li>
+									<li id="myPage" class="active"><a href="myPage">个人主页-PAGE</a></li>
+									<li><a href="login.html" id="login">登录-LOGIN</a></li>
+								</ul>
+							</div>
+						</div>
+					</nav>
+				</div>
+			</div>
+		<div class="clearfix"> </div>
+	</div>
+<!-- header -->
+<!-- pages -->
+<div class="container">
+	#if(${msg})
+			<div class="distracted">
+				  <h3 class="ghj">提示</h3>
+					   <div class="well">
+						${msg}
+					   </div>
+		     </div>
+	#else
+		<div class="col-md-9 abou-left" id="simpleQ">
+		<br>
+			#if(${exMsg})
+			<div class="alert alert-success" >
+				$!{exMsg}
+			</div>
+			#end
+		<h3 class="ghj">选择题</h3>
+				#set($index = 0)
+				#set($ids= "")
+				#foreach($e in  $!es)		
+			    	#if(${e.type}==1)
+			    	 #set($index = $index + 1)
+			    	<div class="alert alert-warning" role="alert">
+						$index .<strong>${e.question}</strong>
+				   </div>    
+				   <div class="control-wrapper" id="ans1">
+				   		<input type="checkbox" id="A-${e.id}">A.${e.optionVo.answerA}<br>
+				   		<input type="checkbox" id="B-${e.id}">B.${e.optionVo.answerB}<br>
+				   		<input type="checkbox" id="C-${e.id}">C.${e.optionVo.answerC}<br>
+				   		<input type="checkbox" id="D-${e.id}">D.${e.optionVo.answerD}<br>
+				    </div>
+				    #set($ids= $ids+${e.id}+",")
+					#end
+				#end
+				<br>
+		 <h3 class="ghj">简答题</h3>
+			    #set($index2 = 0)
+				#foreach($e in  $!es)	
+				   #if(${e.type}==2)
+				   	#set($index2 = $index2 + 1)
+					<div class="alert alert-warning" role="alert">
+						$index2 .<strong>${e.question}</strong>
+				    </div>    
+				   <div class="control-wrapper" id="ans1">
+					<textarea rows="5" cols="10" placeholder="请输入答案" id="${e.id}" name= "exAn"
+							class="form-control"></textarea>
+				    </div>
+				   #set($ids= $ids+${e.id}+",")
+				   #end
+				#end
+				<br>
+				<input type="hidden" value="$!{ids}" id="ids">
+				    <div class="control-wrapper">
+                            <input type="text" class="form-control" name="username" placeholder="指导教师(教师账号)" id="teacherUsername" >
+                    </div>
+				<br>
+		<h2 align="center">
+		<a href="javascript:submitDoExecirse()"><span class="label label-success">提交习题</span></a>
+		</h2>	
+		<br>
+		</div>
+		
+	#end
+</div>
+#include("foot.html")
+<a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 0;"></span> <span id="toTopHover" style="opacity: 0;"> </span></a>
+</body>
+</html>

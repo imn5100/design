@@ -1,0 +1,19 @@
+#target ignore
+/target
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+*.tar.gz
+*.jar
+*.zip
+*.tar
+*.war
+#eclipse ignore
+.settings/
+.metadata/
+.project
+.classpath
+.checkstyle
+

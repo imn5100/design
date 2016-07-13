@@ -1,0 +1,568 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<title>Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<link href="/css/style.css" rel='stylesheet' type='text/css' />
+<script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/move-top.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="application/x-javascript">
+	
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    
+</script>
+<script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1200);
+            });
+            $("#exType").change(function() {
+                if (this.value == 1) {
+                    $("#ans1").hide();
+                    $("#ans2").show();
+                } else {
+                    $("#ans2").hide();
+                    $("#ans1").show();
+                }
+            })
+            $("#exQu").change(function() {
+                $("#addEx").removeAttr("disabled");
+            });
+        });
+
+        function addSubject() {
+            var name = $("#suName").val();
+            var score = $("#suScore").val();
+            var detail = $("#suDetail").val();
+            if (name == "" || name == null) {
+                alert("科目名不能为空");
+                return;
+            }
+            if (score == null || score == "") {
+                alert("科目学分不能为空");
+                return;
+            }
+            if (detail == "" || detail == null) {
+                alert("科目描述不能为空");
+            }
+            score = parseFloat(score);
+            if (isNaN(score)) {
+                alert("科目学分格式错误");
+                return;
+            }
+            score = dealData("score", score);
+            name = dealData("name", name);
+            detail = dealData("detail", detail);
+            var mydata = score + "," + name + "," + detail;
+            mydata = addCommonParameter(mydata);
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/addSubject',
+                processData: false,
+                dataType: 'json',
+                data: mydata,
+                async: true,
+                success: function(returnData) {
+                    if (returnData.code == "200") {
+                        $("#exSu").append("<option value='" + returnData.data.id + "' > " + returnData.data.name + "</option>");
+                        alert("添加科目成功");
+                    } else {
+                        alert(returnData.data);
+                    }
+                },
+                error: function() {
+                    alert('身份验证失效，请重新登录！');
+                    location.reload();
+                }
+            });
+        }
+
+        function releaseNotification() {
+            title = $("input[name=title]").val();
+            if (title == "") {
+                alert("标题不能为空");
+                return false;
+            }
+            content = $("#msgContent").val();
+            if (content == null || content == "") {
+                alert("通知内容不能为空");
+                return false;
+            }
+            var mydata = dealData("title", title) + "," + dealData("content", content);
+            mydata = addCommonParameter(mydata);
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/releaseByJson',
+                processData: false,
+                dataType: 'json',
+                data: mydata,
+                async: true,
+                success: function(returnData) {
+                    if (returnData.code == "200") {
+                        alert(returnData.data);
+                        window.location = "myPage";
+                    } else {
+                        alert(returnData.data);
+                    }
+                },
+                error: function() {
+                    alert('身份验证失效，请重新登录！');
+                    location.reload();
+                }
+            });
+        }
+
+        function saveInfo() {
+            var nick = $("#nick").val();
+            var subjects = $("#subjects").val();
+            var detail = $("#detail").val();
+            nick = dealData("nick", nick);
+            subjects = dealData("subjects", subjects);
+            detail = dealData("detail", detail);
+            var mydata = nick + "," + subjects + "," + detail;
+            mydata = addCommonParameter(mydata);
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/saveInfo',
+                processData: false,
+                dataType: 'json',
+                data: mydata,
+                async: true,
+                success: function(returnData) {
+                    if (returnData.code == "200") {
+                        alert(returnData.data);
+                    }
+                },
+                error: function() {
+                    alert('身份验证异常！');
+                }
+            });
+        }
+
+        function deleteNotis(id) {
+            if (!confirm("确认要删除吗？")) {
+                return;
+            }
+            var mydata = dealData("id", id);
+            mydata = addCommonParameter(mydata);
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/deleteNoti',
+                processData: false,
+                dataType: 'json',
+                data: mydata,
+                async: true,
+                success: function(returnData) {
+                    if (returnData.code == "200") {
+                        $("#noti" + id).remove();
+                        alert(returnData.data);
+                    } else {
+                        alert(returnData.data);
+                    }
+                },
+                error: function() {
+                    alert('身份验证失效，请重新登录！');
+                    location.reload();
+                }
+            });
+        }
+
+        function updateNotis(id) {
+            var title = $("#title" + id).val();
+            var content = $("#detail" + id).val();
+            if (title.length <= 0 || title.length > 50) {
+                alert("标题不能为空，且最大不能超过50字");
+            }
+            if (content.length > 200 || content.length <= 0) {
+                alert("通知不能为空，且最大不能超过200字");
+                return;
+            }
+            id = dealData("id", id);
+            title = dealData("title", title);
+            content = dealData("content", content);
+            var mydata = id + "," + title + "," + content;
+            mydata = addCommonParameter(mydata);
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/updateNoti',
+                processData: false,
+                dataType: 'json',
+                data: mydata,
+                async: true,
+                success: function(returnData) {
+                    if (returnData.code == "200") {
+                        alert(returnData.data);
+                    }
+                },
+                error: function() {
+                    alert('身份验证失效，请重新登录！');
+                    location.reload();
+                }
+            });
+        }
+
+        function addEx() {
+            var exQu = $("#exQu").val();
+            var type = $("#exType").val();
+            var exSu = $("#exSu").val();
+            var exAn = "";
+            var options = ""
+            if (exQu == "") {
+                alert("题目描述不能为空");
+                return;
+            }
+            if (type == 2) {
+                exAn = $("#exAn").val();
+                if (exAn == "") {
+                    alert("简答题答案不能为空");
+                    return;
+                }
+            } else if (type == 1) {
+                var exAns = document.getElementsByName("exAns");
+                var name = ["exAnA", "exAnB", "exAnC", "exAnD"];
+                var out = false;
+                $(exAns).each(function(index, element) {
+                    if (element.value == "") {
+                        alert("选择题选项不能为空");
+                        out = true;
+                        return false;
+                    }
+                    options = options + dealData(name[index], element.value) + ","
+                });
+                $("input[type=checkbox]").each(function(index, element) {
+                    if (element.checked) {
+                        exAn = exAn + element.value;
+                    }
+                });
+                if (out) return;
+            } else {
+                alert("类型错误");
+                return;
+            }
+            exQu = dealData("exQu", exQu);
+            type = dealData("type", type);
+            exSu = dealData("exSu", exSu);
+            exAn = dealData("exAn", exAn)
+            var mydata = toStr(exQu, type, exSu, exAn);
+            if (options != "") mydata = options + mydata;
+            mydata = addCommonParameter(mydata);
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/addExercise',
+                processData: false,
+                dataType: 'json',
+                data: mydata,
+                async: true,
+                success: function(returnData) {
+                    alert(returnData.data);
+                    $("#addEx").attr("disabled", "disabled");
+                },
+                error: function() {
+                    alert('服务器异常,请联系管理员或稍候登录再试');
+                }
+            });
+        }
+        function reloadNews() {
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                url: '/reloadNews',
+                processData: false,
+                dataType: 'json',
+                data: "",
+                async: true,
+                success: function(returnData) {
+                    if (returnData.code == "200") {
+                        alert(returnData.msg);
+                    }
+                },
+                error: function() {
+                    alert('身份验证失效，请重新登录！');
+                    location.reload();
+                }
+            });
+        }
+    </script>
+</head>
+</head>
+
+<body>
+	<div class="header">
+		<div class="logo">
+			<h1>
+				<a href="about.html">BHNT</a>
+			</h1>
+		</div>
+		<div class="header-top">
+			<div class="head-nav">
+				<nav class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle collapsed"
+								data-toggle="collapse"
+								data-target="#bs-example-navbar-collapse-1"
+								aria-expanded="false">
+								<span class="sr-only">Toggle navigation</span> <span
+									class="icon-bar"></span> <span class="icon-bar"></span> <span
+									class="icon-bar"></span>
+							</button>
+						</div>
+						<div class="collapse navbar-collapse"
+							id="bs-example-navbar-collapse-1">
+							<ul class="nav navbar-nav">
+								<li><a href="about.html">主页-HOME</a></li>
+								<li><a href="news.html">新闻-NEWS</a></li>
+								<li id="myPage" class="active"><a href="myPage">个人主页-PAGE</a>
+								</li>
+								<li><a href="login.html" id="login">登录-LOGIN</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
+			</div>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	<!-- header -->
+	<!-- pages -->
+	<div class="container">
+		<div class="pages">
+			<div class="Buttons">
+				<div class="bs-example">
+					<h3 class="ghj">个人信息</h3>
+					<table class="table">
+						<tbody>
+							<tr>
+								<td class="type-info">账号：</td>
+								<td class="type-info"><input type="text"
+									class="form-control" id="username" placeholder=""
+									value="$!{userVo.username}" readonly="readonly" /></td>
+							</tr>
+							<tr>
+								<td class="type-info">姓名：</td>
+								<td class="type-info"><input type="text"
+									class="form-control" id="nick" placeholder=""
+									value="$!{userVo.nick}" /></td>
+							</tr>
+							<tr>
+								<td class="type-info">教学科目：</td>
+								<td class="type-info"><input type="text"
+									class="form-control" id="subjects" placeholder=""
+									value="$!{userVo.subjects}"></td>
+							</tr>
+							<tr>
+								<td class="type-info">个人简介：</td>
+								<td><input type="text" class="form-control" id="detail"
+									placeholder="" value="$!{userVo.detail}" /></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="control-wrapper">
+						<h3 align="center">
+							<a href="javascript:saveInfo()"><span
+								class="label label-primary">修改</span></a>
+						</h3>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<h3 class="ghj">通知管理</h3>
+				<div class="alert alert-success" role="alert" align="center">
+					<strong>我的通知</strong>
+				</div>
+				#foreach($noti in $notis)
+				<div class="col-md-3 minist-left" id="noti$!{noti.id}">
+					<p class="type-info">标题</p>
+					<input type="text" class="form-control" placeholder=""
+						id="title$!{noti.id}" value="$!{noti.title}" />
+					<p class="type-info">内容</p>
+					<textarea rows="5" cols="10" class="form-control"
+						id="detail$!{noti.id}">$!{noti.detail}</textarea>
+					<p class="tyep-info">发布时间 :$!dateTool.format('yyyy-MM-dd
+						HH:mm:ss',$!{noti.createtime})</p>
+					<div align="center">
+						<a href="javascript:updateNotis($!{noti.id})"><span
+							class="label label-success">修改</span></a> <a
+							href="javascript:deleteNotis($!{noti.id})"><span
+							class="label label-warning">删除</span></a>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				#end
+			</div>
+			<div class="clearfix"></div>
+			<form class="form-horizontal templatemo-container  margin-bottom-30"
+				id="releaseNotification" method="post" action="#">
+				<div class="headdings">
+					<div class="alert alert-info" role="alert" align="center">
+						<strong>发布通知</strong>
+					</div>
+					<div class="control-wrapper">
+						<input type="text" class="form-control" name="title"
+							placeholder="通知标题">
+					</div>
+					<br>
+					<div class="control-wrapper">
+						<textarea rows="5" cols="10" placeholder="通知内容" id="msgContent"
+							name="content" class="form-control"></textarea>
+					</div>
+					<br>
+					<div class="control-wrapper" align="center">
+						<input type="button" value="提交" class="btn btn-info"
+							onclick="javascript:releaseNotification()">
+					</div>
+					<br>
+				</div>
+			</form>
+			<h3 class="ghj">习题管理</h3>
+			<div class="alert alert-info" role="alert" align="center">
+				<strong>提交给我的试卷</strong>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<td>编号</td>
+						<td>学号</td>
+						<td>班级</td>
+						<td>学生帐户名</td>
+						<td>完成习题数</td>
+						<td>查看完成习题详情</td>
+					</tr>
+				</thead>
+				#foreach($s in $sc)
+				<tr>
+					<td>${s.studentId}</td>
+					<td>$!{s.info.sno}</td>
+					<td>$!{s.info.clazz}</td>
+					<td>${s.studentName}</td>
+					<td>$!{s.count}</td>
+					<td><a href="/studentExes?id=$!{s.studentId}" target="_blank">查看</a>
+					</td>
+				</tr>
+				#end
+			</table>
+			<div class="col-md-4 abou-left">
+				<div class="headdings">
+					<div class="alert alert-info" role="alert" align="center">
+						<strong>添加科目</strong>
+					</div>
+					<div class="control-wrapper">
+						<input type="text" class="form-control" id="suName"
+							placeholder="科目名字">
+					</div>
+					<br>
+					<div class="control-wrapper">
+						<input type="text" class="form-control" id="suScore"
+							placeholder="科目学分">
+					</div>
+					<br>
+					<div class="control-wrapper">
+						<textarea rows="5" cols="10" placeholder="科目描述" id="suDetail"
+							class="form-control"></textarea>
+					</div>
+					<br>
+					<div class="control-wrapper" align="center">
+						<input type="button" value="提交" class="btn btn-info"
+							onclick="javascript:addSubject()">
+					</div>
+					<br>
+					<div class="alert alert-info" role="alert" align="center">
+						<strong>数据管理</strong>
+					</div>
+					<div class="control-wrapper">
+						<a href="/adminPage" class="text-left pull-left">用户数据管理?</a>
+					</div>
+					<br>
+					<div class="control-wrapper">
+						<a href="/adminPageForExe" class="text-left pull-left">习题数据管理?</a>
+					</div>
+					<br>
+					<div class="control-wrapper">
+						<a href="javascript:reloadNews()"><span class="text-left pull-left">刷新新闻数据?</span></a>
+					</div>
+					<br>
+				</div>
+			</div>
+			<div class="col-md-8 abou-right">
+				<div class="headdings">
+					<div class="alert alert-info" role="alert" align="center">
+						<strong>添加习题</strong>
+					</div>
+					<div class="control-wrapper">
+						<table class="table">
+							<tr>
+								<td>题目类型：</td>
+								<td><select name="type" id="exType">
+										<option value="1">选择题</option>
+										<option value="2">简答题</option>
+								</select></td>
+								<td>所属科目：</td>
+								<td><select name="subject" id="exSu">#foreach($sub
+										in $!subs)
+										<option value="$!{sub.id}">$!{sub.name}</option>#end
+								</select></td>
+						</table>
+					</div>
+					<br>
+					<div class="control-wrapper">
+						<textarea rows="5" cols="10" placeholder="题目描述" id="exQu"
+							class="form-control"></textarea>
+					</div>
+					<br>
+					<div class="control-wrapper" id="ans1" hidden="true">
+						<textarea rows="5" cols="10" placeholder="正确答案" id="exAn"
+							class="form-control"></textarea>
+					</div>
+					<div class="control-wrapper" id="ans2">
+						<input type="checkbox" id="exAnAc" value="A">A <input
+							type="text" name="exAns" class="form-control" id="exAnA"
+							placeholder="选项A的答案"> <input type="checkbox" id="exAnBc"
+							value="B">B <input type="text" name="exAns"
+							class="form-control" id="exAnB" placeholder="选项B的答案"> <input
+							type="checkbox" id="exAnCc" value="C">C <input
+							type="text" name="exAns" class="form-control" id="exAnC"
+							placeholder="选项C的答案"> <input type="checkbox" id="exAnDc"
+							value="D">D <input type="text" name="exAns"
+							class="form-control" id="exAnD" placeholder="选项D的答案">
+					</div>
+					<br>
+					<div class="control-wrapper" align="center">
+						<input type="button" value="提交" class="btn btn-info" id="addEx"
+							onclick="javascript:addEx()">
+					</div>
+					<br>
+				</div>
+			</div>
+			<div class="clearfix"></div>
+			<br>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+	#include("foot.html")
+	<a href="#" id="toTop" style="display: block;"><span
+		id="toTopHover" style="opacity: 0;"></span> <span id="toTopHover"
+		style="opacity: 0;"> </span></a>
+</body>
+
+</html>

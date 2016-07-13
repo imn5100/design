@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link href="/css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" type="text/css" href="/css/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/css/icon.css">
+    <link rel="stylesheet" type="text/css" href="/css/color.css">
+    <link rel="stylesheet" type="text/css" href="/css/demo.css">
+    <script type="text/javascript" src="/js/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/move-top.js"></script>
+    <script type="text/javascript" src="/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/js/jquery.md5.js"></script>
+    <script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/js/login.js"></script>
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event) {
+                event.preventDefault();
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1200);
+            });
+        });
+    </script>
+</head>
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>
+				<a href="about.html">BHNT</a>
+			</h1>
+        </div>
+        <div class="header-top">
+            <div class="head-nav">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">	<span class="sr-only">Toggle navigation</span>  <span class="icon-bar"></span>  <span class="icon-bar"></span>  <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li><a href="about.html">主页-HOME</a>
+                                </li>
+                                <li><a href="news.html">新闻-NEWS</a>
+                                </li>
+                                <li id="myPage" class="active"><a href="myPage">个人主页-PAGE</a>
+                                </li>
+                                <li><a href="login.html" id="login">登录-LOGIN</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div style="margin:20px 0 10px 0;"></div>
+    <div class="easyui-tabs" style="width:100%x;height:750px">
+        <div title="学生注册学号管理" style="padding:10px">
+            <div align="center">
+                <br>
+                <h2 class="ghj">认证学号管理</h2>
+                <table id="dg" title="认证学号列表" class="easyui-datagrid" style="width:90%;height:650px" url="/showTokenTable" pagination="true" toolbar="#toolbar" rownumbers="true" fitColumns="true" singleSelect="true">
+                    <thead>
+                        <tr>
+                            <th field="id" width="50">编号</th>
+                            <th field="code" width="50">认证学号</th>
+                            <th field="status" width="50">使用状态</th>
+                            <th field="sid" width="50">学生编号</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="toolbar"> <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加</a>
+                </div>
+                <div id="dlg" class="easyui-dialog" style="width:300px;height:150px;padding:10px 20px" closed="true" buttons="#dlg-buttons">
+                    <form id="fm" method="post" novalidate>
+                        <div class="fitem">
+                            <label>认证学号:</label>
+                            <input name="code" class="easyui-textbox" required="true">
+                        </div>
+                    </form>
+                </div>
+                <div id="dlg-buttons"> <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveUser()" style="width:90px">添加</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">取消</a>
+                </div>
+            </div>
+        </div>
+        <div title="教师管理" style="padding:10px">
+            <div align="center">
+                <br>
+                <h2 class="ghj">教师账号管理</h2>
+                <table id="teacherDg" title="教师账号列表" class="easyui-datagrid" style="width:90%;height:650px" url="/showTeacherTable" pagination="true" toolbar="#toolbarForTeacher" rownumbers="true" fitColumns="true" singleSelect="true">
+                    <thead>
+                        <tr>
+                            <th field="id" width="50">编号</th>
+                            <th field="username" width="50">账号</th>
+                            <th field="nick" width="50">姓名</th>
+                            <th field="subjects" width="50">职教科目</th>
+                            <th field="detail" width="50">个人介绍</th>
+                            <th field="role" width="50">权限等级</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div id="toolbarForTeacher">	<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newTeacher()">添加</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="giveRole()">授予权限</a>
+                </div>
+                <div id="addTeacher" class="easyui-dialog" style="width:400px;height:200px;padding:10px 20px" closed="true" buttons="#addTeacherB">
+                    <form id="fmTeacher" method="post" novalidate>
+                        <div class="fitem">
+                            <label>账号:</label>
+                            <input name="username" class="easyui-textbox" required="true">
+                            <br>
+                            <label>密码:</label>
+                            <input name="password" class="easyui-textbox" required="true">
+                            <br>
+                            <label>姓名:</label>
+                            <input name="nick" class="easyui-textbox" required="true">
+                            <br>
+                        </div>
+                    </form>
+                </div>
+                <div id="addTeacherB"> <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="saveTeacher()" style="width:90px">添加</a>
+                    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#addTeacher').dialog('close')" style="width:90px">取消</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>#include("foot.html")	<a href="#" id="toTop" style="display: block;"><span
+		id="toTopHover" style="opacity: 0;"></span> <span id="toTopHover"
+		style="opacity: 0;"> </span></a>
+</body>
+<script type="text/javascript">
+    function newUser() {
+        $('#dlg').dialog('open').dialog('center').dialog('setTitle', '添加认证学号');
+        $('#fm').form('clear');
+    }
+
+    function newTeacher() {
+        $('#addTeacher').dialog('open').dialog('center').dialog('setTitle', '添加教师账号');
+        $('#fmTeacher').form('clear');
+    }
+
+    function saveUser() {
+        $('#fm').form('submit', {
+            url: "/addToken",
+            onSubmit: function() {
+                return $(this).form('validate');
+            },
+            success: function(result) {
+                var result = eval('(' + result + ')');
+                if (result.code != 200) {
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.msg
+                    });
+                } else {
+                    $('#dlg').dialog('close'); // close the dialog
+                    $('#dg').datagrid('reload'); // reload the user data
+                }
+            }
+        });
+    }
+
+    function saveTeacher() {
+        pas = $("input[name=password]");
+        pas.attr("value", $.md5(pas.val()));
+        $('#fmTeacher').form('submit', {
+            url: "/addTeacher",
+            onSubmit: function() {
+                return $(this).form('validate');
+            },
+            success: function(result) {
+                var result = eval('(' + result + ')');
+                if (result.code != 200) {
+                    pas.attr("value", "");
+                    $.messager.show({
+                        title: 'Error',
+                        msg: result.msg
+                    });
+                } else {
+                    $('#addTeacher').dialog('close'); // close the dialog
+                    $('#teacherDg').datagrid('reload'); // reload the user data
+                }
+            }
+        });
+    }
+
+    function giveRole() {
+        var row = $('#teacherDg').datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('Confirm', '授予管理员权限后，该帐号可操作用户信息.确认授予?', function(r) {
+                if (r) {
+                    $.post('/giveRole', {
+                        id: row.id
+                    }, function(result) {
+                        if (result.code == 200) {
+                            alert("授予成功");
+                            $('#dg').datagrid('reload'); // reload the user data
+                        } else {
+                            $.messager.show({ // show error message
+                                title: 'Error',
+                                msg: result.msg
+                            });
+                        }
+                    }, 'json');
+                }
+            });
+        }
+    }
+</script>
+<style type="text/css">
+    #fm {
+    margin: 0;
+    padding: 10px 30px;
+}
+
+.ftitle {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.fitem {
+    margin-bottom: 5px;
+}
+
+.fitem label {
+    display: inline-block;
+    width: 80px;
+}
+
+.fitem input {
+    width: 160px;
+}
+
+* {
+    font-size: 12px;
+}
+</style>
+
+</html>
